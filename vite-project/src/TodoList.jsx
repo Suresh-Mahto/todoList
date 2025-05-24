@@ -18,6 +18,34 @@ let deleteTodo=(id)=>{
    setTodos((prevTodos) => todos.filter((prevTodos) => prevTodos.id != id));
 
 }
+    let upperCaseAll=() => {
+     setTodos((prevTodos)=>(
+        prevTodos.map((todo)=>{
+            return{
+                ...todo,
+                task:todo.task.toUpperCase(),
+            }
+        })
+    ));
+
+};
+let upperCaseOne =(id) =>{
+    setTodos((prevTodos)=>(
+        prevTodos.map((todo)=>{
+            if(todo.id == id){
+            return{
+                ...todo,
+                task:todo.task.toUpperCase(),
+            }}
+            else {
+                return todo;
+            }
+        })
+    ));
+
+}
+
+
 
     return(
         <div>
@@ -37,11 +65,14 @@ let deleteTodo=(id)=>{
                     <span>    {todos.task}</span>
                     &nbsp;&nbsp;&nbsp; 
                     <button onClick={() =>deleteTodo(todos.id)}>delete</button>
+                    <button onClick={() =>upperCaseOne(todos.id)}>upperCaseOne</button>
                     </li>
                 )
             )
             }
            </ul>
+           <br></br>
+           <button onClick={upperCaseAll}>upperCaseAll</button>
         </div>
     )
 }
