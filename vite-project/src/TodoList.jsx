@@ -2,12 +2,12 @@ import {useState} from "react";
 import { v4 as uuidv4 } from 'uuid';
 
 export default function TodoList() {
-let [todos, setTodos]=useState([{ task:"sample task",id:uuidv4()}])
+let [todos, setTodos]=useState([{ task:"sample task",id:uuidv4(),isDone:false}])
 let[newTodo,setNewTodo]=useState("");
 
 let addNewTask = () => {
    setTodos((prevTodos) =>{
-    return[...prevTodos,{task: newTodo, id:uuidv4()}];
+    return[...prevTodos,{task: newTodo, id:uuidv4(),isDone:false}];
    });
    setNewTodo("");
 }
@@ -29,6 +29,17 @@ let deleteTodo=(id)=>{
     ));
 
 };
+let markAllDone=() => {
+     setTodos((prevTodos)=>(
+        prevTodos.map((todo)=>{
+            return{
+                ...todo,
+                isDone:true,
+            }
+        })
+    ));
+
+};
 let upperCaseOne =(id) =>{
     setTodos((prevTodos)=>(
         prevTodos.map((todo)=>{
@@ -36,6 +47,21 @@ let upperCaseOne =(id) =>{
             return{
                 ...todo,
                 task:todo.task.toUpperCase(),
+            }}
+            else {
+                return todo;
+            }
+        })
+    ));
+
+}
+let markAsDone =(id) =>{
+    setTodos((prevTodos)=>(
+        prevTodos.map((todo)=>{
+            if(todo.id == id){
+            return{
+                ...todo,
+                isDone:true,
             }}
             else {
                 return todo;
@@ -62,10 +88,13 @@ let upperCaseOne =(id) =>{
             {
                 todos.map((todos)=>(
                     <li key={todos.id}>
-                    <span>    {todos.task}</span>
+                    <span 
+                        style={todos.isDone ?{ textDecoration:"Line-through"}:{}}
+                    >    {todos.task}</span>
                     &nbsp;&nbsp;&nbsp; 
                     <button onClick={() =>deleteTodo(todos.id)}>delete</button>
                     <button onClick={() =>upperCaseOne(todos.id)}>upperCaseOne</button>
+                    <button onClick={() =>markAsDone(todos.id)}>markAsDone</button>
                     </li>
                 )
             )
@@ -73,6 +102,10 @@ let upperCaseOne =(id) =>{
            </ul>
            <br></br>
            <button onClick={upperCaseAll}>upperCaseAll</button>
+             <br></br>
+           <br></br>
+           <br></br>
+           <button onClick={markAllDone}>Mark as all done</button>
         </div>
     )
 }
